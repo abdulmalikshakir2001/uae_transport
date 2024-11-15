@@ -10,6 +10,7 @@ export default {
   theme: {
   	extend: {
   		colors: {
+			lightest_gray: '#27272a0d',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -55,7 +56,10 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		  fontFamily: {
+			'cus_inter': ["Inter", "serif"],
+		  },
   	}
   },
   plugins: [require("tailwindcss-animate")],
