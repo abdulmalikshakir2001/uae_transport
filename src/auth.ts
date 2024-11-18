@@ -1,4 +1,4 @@
-import NextAuth, { CredentialsSignin } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import GoogleProvider from "next-auth/providers/google";
@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       password: {label: "Password", type: "password" }
         },
         authorize: async (credentials)=> {
-          console.log(credentials)
+          
           
             const email = credentials.email as string ;
             const password = credentials.password as string ;
@@ -30,7 +30,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             
 
             const user = await findUserByEmail(email);
-            if(!user) throw new CredentialsSignin("No user found")
+            if(!user)  throw new Error("Invalid credentials")
+           
 
             
 
@@ -38,10 +39,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           
             const isMatch =  await compare(password , user.password );
             // console.log('password result is : ',isMatch)
-            if(!isMatch) throw new CredentialsSignin("Invalid Email or Password")
+            if(!isMatch)  throw new Error("Password not matched")
+           
 
-
-             return {name:user.name, email:user.email,id:user.id};
+            return {name:user.name, email:user.email,id:user.id};
             
             
 

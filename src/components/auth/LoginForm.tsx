@@ -10,10 +10,18 @@ import Hoverbg from "@/components/Hoverbg";
 import Link from "next/link";
 import login from "@/server_actions/auth/login";
 
+import { useRouter } from "next/navigation";
+
+
+
+
 // Define the shape of the form values
 interface LoginFormValues {
   email: string;
   password: string;
+}
+interface LoginFormProps {
+  onError: () => void;
 }
 
 // Yup validation schema
@@ -22,20 +30,41 @@ const loginSchemaYup = Yup.object().shape({
     .email("Invalid email address")
     .required("Email is required"),
   password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
+    .min(8, "Password must be at least 8 characters")
     .required("Password is required"),
 });
 
 
 
-export default function LoginForm() {
+export default function LoginForm({ onError }:LoginFormProps) {
+  const router = useRouter();
   const handleSubmit = async (
     values: LoginFormValues,
     { setSubmitting }: FormikHelpers<LoginFormValues>
   ): Promise<void> => {
     // `values` type is LoginFormValues: { email: string; password: string }
     const { email, password } = values;
-    login({ email, password })
+
+const loginRes =await  login({ email, password })
+
+if(loginRes){
+  router.push('/dashboard')
+}
+else{
+onError()
+}
+
+
+
+    
+     
+
+
+    
+    // if (response.status === false) {
+    //   onError(); 
+    // }
+
     try {
       // Call your signIn function or any API
       console.log("Form Submitted:", values);
@@ -63,6 +92,7 @@ export default function LoginForm() {
                 id="email"
                 as={Input}
                 className="mt-3"
+                
               />
               <ErrorMessage
                 name="email"
@@ -89,7 +119,7 @@ export default function LoginForm() {
 
             <div className="flex flex-col-reverse md:flex-row justify-between items-center">
                     <Hoverbg>
-                      <Link href="/register" className="text-zinc-800 opacity-50">
+                      <Link href="/signup" className="text-zinc-800 opacity-50">
                         Need an account?
                       </Link>
                     </Hoverbg>
