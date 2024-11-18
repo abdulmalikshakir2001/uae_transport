@@ -2,7 +2,7 @@
 
 import { signIn } from "@/auth";
 import { loginSchema } from "@/lib/zod/schemas";
-import { redirect } from "next/navigation";
+
 
 
 async function login(userLoginDetails: { email: string; password: string }) {
