@@ -25,7 +25,7 @@ const data = {
       items: [
     
         {
-          title: "Data Fetching",
+          title: "Contacts",
           url: "#",
           isActive: true,
         },

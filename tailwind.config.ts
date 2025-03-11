@@ -11,6 +11,9 @@ export default {
   	extend: {
   		colors: {
   			lightest_gray: '#27272a0d',
+			  golden_brown: "#a27836",
+			  dark_blue:"#061138",
+			  light_blue: "#373f5b",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -68,6 +71,7 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		fontFamily: {
+			serif: ["PT Serif", "serif"],
   			cus_inter: [
   				'Inter',
   				'serif'
