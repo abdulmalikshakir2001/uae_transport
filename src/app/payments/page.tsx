@@ -2,8 +2,8 @@ import { Payment, columns } from "./columns"
 import { DataTable } from "./data-table"
 
 async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
+  // Fetch payments data
+  const payments = [
     {
       id: "728ed52f",
       amount: 100,
@@ -101,6 +101,30 @@ async function getData(): Promise<Payment[]> {
       email: "chris.anderson@example.com",
     }
   ]
+
+  // Fetch bookings data
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/bookings`, {
+      cache: 'no-store' // Disable caching to always get fresh data
+    })
+    const bookingsData = await response.json()
+    
+    if (bookingsData.success) {
+      // Convert bookings to payment format if needed
+      const bookingPayments = bookingsData.bookings.map((booking: any) => ({
+        id: booking.bookingId,
+        amount: booking.amount || 0,
+        status: 'pending',
+        email: booking.email,
+      }))
+      
+      return [...payments, ...bookingPayments]
+    }
+  } catch (error) {
+    console.error('Error fetching bookings:', error)
+  }
+
+  return payments
 }
 
 export default async function DemoPage() {

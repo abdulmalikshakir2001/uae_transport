@@ -46,10 +46,26 @@ const BookingForm = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    localStorage.setItem("bookingForm", JSON.stringify(formData));
-    setSubmitted(true);
+    try {
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        alert('Failed to submit booking. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting booking:', error);
+      alert('Failed to submit booking. Please try again.');
+    }
   };
 
   return (
